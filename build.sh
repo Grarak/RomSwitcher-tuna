@@ -8,10 +8,10 @@ build () {
     cd boot.img-ramdisk
     find . | cpio -o -H newc | gzip -9 > ../ramdisk.gz
     cd ..
-    ./mkbootimg-$1 --kernel zImage --ramdisk ramdisk.gz --base 0x80000000 -o boot.img
+    ./mkbootimg-$1 --kernel zImage --ramdisk ramdisk.gz --cmdline "console=ttyFIQ0 androidboot.console=ttyFIQ0 mem=1G vmalloc=768M omap_wdt.timer_margin=30 no_console_suspend" -o boot.img
 }
 
-if grep -q "export BUILD_MAC_SDK_EXPERIMENTAL=1" ~/.bash_profile; then
+if [ -e ~/.bash_profile ]; then
     build darwin
 else
     build linux
@@ -23,4 +23,4 @@ adb push boot.img /sdcard/romswitcher/second.img
 zip -r kernel.zip META-INF boot.img
 mv -v kernel.zip ../
 cd ..
-adb push kernel.zip /sdcard/0/
+adb push kernel.zip /sdcard/
