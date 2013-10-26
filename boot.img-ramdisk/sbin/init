@@ -1,0 +1,69 @@
+#!/sbin/busybox sh
+
+cd /
+
+mount -t proc proc /proc
+mount -t sysfs sys /sys
+
+mkdir -p /dev/block
+
+for i in 0 1 2; do
+	block=$((10+$i))
+	minor=$((2+$i))
+	mknod /dev/block/mmcblk0p$block b 259 $minor
+done
+
+mknod /dev/block/loop0 b 7 0
+
+mount -t ext4 /dev/block/mmcblk0p12 /data
+
+out() {
+	umount -f /data
+
+	chmod 755 /int.0
+	chmod 644 /*.tuna
+	chmod 644 /*.rc
+	chmod 644 /*.prop
+	chmod -R 755 /lib
+
+	rm -f /init
+	mv -f /init.0 /init
+
+	exec /init
+}
+
+ROM=`cat /data/media/.rom`
+[ -e /data/media/.rom ] || ROM=0
+
+if grep -q bootmode=2 /proc/cmdline || [ -e /data/media/rebootrs ]; then
+	rm -f /data/media/rebootrs
+	mv -f /res/etc /
+	mv -f /res/aosp43/* /
+	mv -f /res/recovery/* /
+	out
+fi
+
+mkdir -p /data/media/0/romswitcher-tmp
+if [ -e /data/media/0/romswitcher-tmp/manualboot ]; then
+	if [ -e /data/media/.nextboot ]; then
+		rm -f /data/media/.nextboot
+	else
+		mv -f /res/etc /
+		mv -f /res/aosp43/* /
+		mv -f /res/recovery/* /
+		mv -f /init.rc.2 /init.rc
+		out
+	fi
+fi
+
+[ -e /data/media/.nextboot ] && rm -f /data/media/.nextboot
+
+mv -f /res/aosp43/* /
+
+[ "$ROM" == "0" ] || mv -f /fstab.tuna.2 /fstab.tuna
+[ "$ROM" == "1" ] && mv -f /init.tuna.rc.second /init.tuna.rc
+[ "$ROM" == "2" ] && mv -f /init.tuna.rc.third /init.tuna.rc
+[ "$ROM" == "3" ] && mv -f /init.tuna.rc.fourth /init.tuna.rc
+[ "$ROM" == "4" ] && mv -f /init.tuna.rc.fifth /init.tuna.rc
+
+out
