@@ -35,7 +35,7 @@ out() {
 ROM=`cat /data/media/.rom`
 [ -e /data/media/.rom ] || ROM=0
 
-if grep -q bootmode=2 /proc/cmdline || [ -e /data/media/rebootrs ]; then
+if [ -e /data/media/rebootrs ]; then
 	rm -f /data/media/rebootrs
 	mv -f /res/etc /
 	mv -f /res/aosp43/* /
