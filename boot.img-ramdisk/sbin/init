@@ -6,6 +6,13 @@ mount -t proc proc /proc
 mount -t sysfs sys /sys
 
 mkdir -p /dev/block
+mkdir /dev/input
+
+for i in 0 1 2 3 4 5; do
+        event=$((0+$i))
+        minor=$((64+$i))
+        mknod /dev/input/event$event c 13 $minor
+done
 
 for i in 0 1 2; do
 	block=$((10+$i))
@@ -32,17 +39,6 @@ out() {
 	exec /init
 }
 
-ROM=`cat /data/media/.rom`
-[ -e /data/media/.rom ] || ROM=0
-
-if [ -e /data/media/rebootrs ]; then
-	rm -f /data/media/rebootrs
-	mv -f /res/etc /
-	mv -f /res/aosp43/* /
-	mv -f /res/recovery/* /
-	out
-fi
-
 mkdir -p /data/media/0/romswitcher-tmp
 if [ -e /data/media/0/romswitcher-tmp/manualboot ]; then
 	if [ -e /data/media/.nextboot ]; then
@@ -54,9 +50,70 @@ if [ -e /data/media/0/romswitcher-tmp/manualboot ]; then
 		mv -f /init.rc.2 /init.rc
 		out
 	fi
+else
+	echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+	KEY=`/sbin/ext/evkey -u -t 2000 /dev/input/event2`
+	if [ "$KEY" == "116" ]; then
+		KEYNEXT=`/sbin/ext/evkey -u -t 500 /dev/input/event2`
+		if [ "$KEYNEXT" == "116" ]; then
+			echo 300 > /sys/devices/virtual/timed_output/vibrator/enable
+			echo 1 > /data/media/rebootrs
+		else
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			echo 0 > /data/media/.rom
+		fi
+	elif [ "$KEY" == "114" ]; then
+		KEYNEXT=`/sbin/ext/evkey -u -t 500 /dev/input/event2`
+		if [ "$KEYNEXT" == "114" ]; then
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			sleep 0.3
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			sleep 0.3
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			sleep 0.3
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			echo 3 > /data/media/.rom
+		else
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			sleep 0.3
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			echo 1 > /data/media/.rom
+		fi
+	elif [ "$KEY" == "115" ]; then
+		if [ "$KEYNEXT" == "115" ]; then
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			sleep 0.3
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			sleep 0.3
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			sleep 0.3
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			sleep 0.3
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			echo 4 > /data/media/.rom
+		else
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			sleep 0.3
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			sleep 0.3
+			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
+			echo 2 > /data/media/.rom
+		fi
+	fi
 fi
 
 [ -e /data/media/.nextboot ] && rm -f /data/media/.nextboot
+
+if [ -e /data/media/rebootrs ]; then
+	rm -f /data/media/rebootrs
+	mv -f /res/etc /
+	mv -f /res/aosp43/* /
+	mv -f /res/recovery/* /
+	out
+fi
+
+ROM=`cat /data/media/.rom`
+[ -e /data/media/.rom ] || ROM=0
 
 mv -f /res/aosp43/* /
 
