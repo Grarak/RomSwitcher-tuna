@@ -14,6 +14,7 @@ echo 1200000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 
 echo "-10 0 -10" > /sys/class/misc/colorcontrol/v1_offset
 echo "1800000000 1800000000 2000000000" > /sys/class/misc/colorcontrol/multiplier
+echo 0 > devices/virtual/misc/fsynccontrol/fsync_enabled
 
 mkdir -p /mnt/ntfs
 chmod 777 /mnt/ntfs
