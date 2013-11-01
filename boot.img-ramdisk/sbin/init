@@ -25,6 +25,7 @@ mknod /dev/block/loop0 b 7 0
 mount -t ext4 /dev/block/mmcblk0p12 /data
 
 out() {
+	umount -f /system
 	umount -f /data
 
 	chmod 755 /int.0
@@ -115,7 +116,17 @@ fi
 ROM=`cat /data/media/.rom`
 [ -e /data/media/.rom ] || ROM=0
 
-mv -f /res/aosp43/* /
+[ "$ROM" == "0" ] && mount -t ext4 -o rw /dev/block/mmcblk0p10 /system
+[ "$ROM" == "1" ] && mount -t ext4 -o rw /data/media/.secondrom/system.img /system
+[ "$ROM" == "2" ] && mount -t ext4 -o rw /data/media/.thirddrom/system.img /system
+[ "$ROM" == "3" ] && mount -t ext4 -o rw /data/media/.fourthrom/system.img /system
+[ "$ROM" == "4" ] && mount -t ext4 -o rw /data/media/.fifthrom/system.img /system
+
+if grep -q ro.build.version.sdk=19 /system/build.prop ; then
+	mv -f /res/aosp44/* /
+else
+	mv -f /res/aosp43/* /
+fi
 
 [ "$ROM" == "0" ] || mv -f /fstab.tuna.2 /fstab.tuna
 [ "$ROM" == "1" ] && mv -f /init.tuna.rc.second /init.tuna.rc
