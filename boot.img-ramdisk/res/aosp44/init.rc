@@ -456,6 +456,11 @@ on property:selinux.reload_policy=1
     chown -R system system /selinux/booleans
     chown -R system system /sys/fs/selinux/booleans
 
+service rootdaemon /sbin/ext/rootdaemon
+    class core
+    user root
+    oneshot
+
 service console /system/bin/sh
     class core
     console
