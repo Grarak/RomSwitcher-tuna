@@ -20,6 +20,7 @@ echo "-10 0 -10" > /sys/class/misc/colorcontrol/v1_offset
 echo "1800000000 1800000000 2000000000" > /sys/class/misc/colorcontrol/multiplier
 echo 0 > /sys/devices/virtual/misc/fsynccontrol/fsync_enabled
 
+echo 1 > /sys/devices/virtual/misc/soundcontrol/highperf_enabled
 echo 2 > /sys/devices/virtual/misc/soundcontrol/volume_boost
 
 sysctl -w net.ipv4.tcp_congestion_control=reno
