@@ -81,6 +81,7 @@ else
 			echo 1 > /data/media/.rom
 		fi
 	elif [ "$KEY" == "115" ]; then
+		KEYNEXT=`/sbin/ext/evkey -u -t 500 /dev/input/event2`
 		if [ "$KEYNEXT" == "115" ]; then
 			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
 			sleep 0.3
