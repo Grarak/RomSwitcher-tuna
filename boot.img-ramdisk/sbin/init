@@ -116,7 +116,7 @@ ROM=`cat /data/media/.rom`
 
 [ "$ROM" == "0" ] && mount -t ext4 -o rw /dev/block/mmcblk0p10 /system
 [ "$ROM" == "1" ] && mount -t ext4 -o rw /data/media/.secondrom/system.img /system
-[ "$ROM" == "2" ] && mount -t ext4 -o rw /data/media/.thirddrom/system.img /system
+[ "$ROM" == "2" ] && mount -t ext4 -o rw /data/media/.thirdrom/system.img /system
 [ "$ROM" == "3" ] && mount -t ext4 -o rw /data/media/.fourthrom/system.img /system
 [ "$ROM" == "4" ] && mount -t ext4 -o rw /data/media/.fifthrom/system.img /system
 
