@@ -126,6 +126,8 @@ else
 	mv -f /res/aosp43/* /
 fi
 
+[ -e /system/build.prop] || echo 0 > /data/media/.rom
+
 [ "$ROM" == "0" ] || mv -f /fstab.tuna.2 /fstab.tuna
 [ "$ROM" == "1" ] && mv -f /init.tuna.rc.second /init.tuna.rc
 [ "$ROM" == "2" ] && mv -f /init.tuna.rc.third /init.tuna.rc
