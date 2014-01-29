@@ -1,0 +1,27 @@
+case $((`cat /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc`)) in
+0)
+	echo 307
+	;;
+
+1)
+	echo 384
+	;;
+
+2)
+	echo 512
+	;;
+esac
+
+if [[ ! -z $1 ]]; then
+	case $1 in
+	307)
+		echo 0 > /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc
+		;;
+	384)
+		echo 1 > /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc
+		;;
+	512)
+		echo 2 > /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc
+		;;
+esac
+fi

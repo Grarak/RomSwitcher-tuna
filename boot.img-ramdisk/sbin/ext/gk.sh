@@ -20,6 +20,9 @@ echo 2 > /sys/devices/virtual/misc/soundcontrol/volume_boost
 
 sysctl -w net.ipv4.tcp_congestion_control=reno
 
+ln -s /res/synapse/uci /sbin/uci
+/sbin/uci
+
 mkdir -p /mnt/ntfs
 chmod 777 /mnt/ntfs
 mount -o mode=0777,gid=1000 -t tmpfs tmpfs /mnt/ntfs

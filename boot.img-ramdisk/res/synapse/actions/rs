@@ -1,0 +1,67 @@
+case $1 in
+
+reboot)
+	echo 1 > /data/media/.nextboot
+	echo 1 > /.firstrom/media/.nextboot
+	echo $2 > /data/media/.rom
+	echo $2 > /.firstrom/media/.rom
+	reboot
+	;;
+
+recovery)
+	echo 1 > /data/media/.nextboot
+	echo 1 > /.firstrom/media/.nextboot
+	echo 1 > /data/media/rebootrs
+	echo 1 > /.firstrom/media/rebootrs
+	reboot
+	;;
+
+appshare)
+	if [[ ! -z $2 ]]; then
+		if [ -e /sdcard/romswitcher-tmp/appshare ]; then
+			rm -rf /sdcard/romswitcher-tmp/appshare
+		else
+			echo 1 > /sdcard/romswitcher-tmp/appshare
+		fi
+	fi
+
+	if [ -e /sdcard/romswitcher-tmp/appshare ]; then
+		echo 1
+	else
+		echo 0
+	fi
+	;;
+
+datashare)
+	if [[ ! -z $2 ]]; then
+		if [ -e /sdcard/romswitcher-tmp/datashare ]; then
+			rm -rf /sdcard/romswitcher-tmp/datashare
+		else
+			echo 1 > /sdcard/romswitcher-tmp/datashare
+		fi
+	fi
+
+	if [ -e /sdcard/romswitcher-tmp/datashare ]; then
+		echo 1
+	else
+		echo 0
+	fi
+	;;
+
+manualboot)
+	if [[ ! -z $2 ]]; then
+		if [ -e /sdcard/romswitcher-tmp/manualboot ]; then
+			rm -rf /sdcard/romswitcher-tmp/manualboot
+		else
+			echo 1 > /sdcard/romswitcher-tmp/manualboot
+		fi
+	fi
+
+	if [ -e /sdcard/romswitcher-tmp/manualboot ]; then
+		echo 1
+	else
+		echo 0
+	fi\
+	;;
+
+esac

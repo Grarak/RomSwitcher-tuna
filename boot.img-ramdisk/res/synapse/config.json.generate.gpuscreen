@@ -1,0 +1,88 @@
+#!/sbin/busybox sh
+
+VALUE=0
+
+cat << CTAG
+{
+    name:GPU & Screen,
+    elements:[
+	{ STitleBar:{
+		title:"GPU Frequency scaling"
+	}},
+	{ SSeekBar:{
+       		title:"GPU Max Frequency",
+		description:"Set the maximum freqency the GPU scales up to.",
+		action:"gpufreq",
+		unit:"MHz",
+		values:[
+			307,
+			384,
+			512
+		]
+	}},
+	{ STitleBar:{
+		title:"Screen"
+	}},
+	{ SCheckBox:{
+		description:"Disable this to make white brighter at low brightness (this has impact of battery life).",
+                label:"Content Adaptive Brightness",
+                default:`cat /sys/class/backlight/s6e8aa0/acl_set`,
+                action:"generic /sys/class/backlight/s6e8aa0/acl_set"
+        }},
+	{ SSeekBar:{
+       		title:"Trinity's Contrast",
+		description:"Set the difference between dark and bright colors.",
+		default:`cat /sys/module/panel_s6e8aa0/parameters/contrast`,
+		action:"generic /sys/module/panel_s6e8aa0/parameters/contrast",
+		max:16, min:-25
+	}},
+	{ SSeekBar:{
+       		title:"Gamma Control",
+		description:"set midtones (middle gray levels).",
+		default:`cat /sys/devices/platform/omapdss/manager0/gamma`,
+		action:"generic /sys/devices/platform/omapdss/manager0/gamma",
+		max:10
+	}},
+	{ SPane:{
+		title:"Gamma Offset",
+		description:"Gamma Offset controls Shadows/Blacks of the display. It does this by changing the brightness/color levels while leaving midtones and highlight areas unaffected."
+	}},
+`
+	for COLOR in \`cat /sys/class/misc/colorcontrol/v1_offset\` ; do
+		VALUE=$(($VALUE+1))
+		echo '{ SSeekBar:{ '
+			case $OFFSET in
+			1)
+				echo 'title:"Red"' ;;
+			2)
+				echo 'title:"Green"' ;;
+			3)
+				echo 'title:"Blue"' ;;
+			esac
+			echo ', action:"offset '${VALUE}'",
+			max:15, min:-15 }},'
+	done
+`
+	{ SPane:{
+		title:"Color Multiplier",
+		description:"Set multiplier of a specific color."
+	}},
+`
+	for COLOR in \`cat /sys/class/misc/colorcontrol/multiplier\` ; do
+		VALUE=$(($VALUE+1))
+		echo '{ SSeekBar:{ '
+			case $OFFSET in
+			1)
+				echo 'title:"Red"' ;;
+			2)
+				echo 'title:"Green"' ;;
+			3)
+				echo 'title:"Blue"' ;;
+			esac
+			echo ', action:"multiplier '${VALUE}'",
+			max:400, min:60 }},'
+	done
+`
+    ]
+}
+CTAG
