@@ -7,6 +7,7 @@ for i in /sys/block/*/queue/add_random;do echo 0 > $i;done
 
 echo 0 > /proc/sys/kernel/randomize_va_space
 
+echo 2 > /sys/devices/system/cpu/sched_mc_power_savings
 echo 180000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 echo 1200000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 echo 350000 > /sys/devices/system/cpu/cpu0/cpufreq/screen_off_max_freq
@@ -18,7 +19,7 @@ echo 0 > /sys/devices/virtual/misc/fsynccontrol/fsync_enabled
 echo 1 > /sys/devices/virtual/misc/soundcontrol/highperf_enabled
 echo 2 > /sys/devices/virtual/misc/soundcontrol/volume_boost
 
-sysctl -w net.ipv4.tcp_congestion_control=reno
+sysctl -w net.ipv4.tcp_congestion_control=westwood
 
 ln -s /res/synapse/uci /sbin/uci
 /sbin/uci

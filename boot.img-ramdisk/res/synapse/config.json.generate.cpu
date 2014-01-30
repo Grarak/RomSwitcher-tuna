@@ -73,6 +73,15 @@ cat << CTAG
                 ]
         }},
 	{ SPane:{
+                title:"Multicore Power Saving",
+                description:"Try to group tasks into the least cores possible. The higher value, the more aggressive"
+        }},
+	{ SSeekBar:{
+                min:0, max:2,
+                default:`cat /sys/devices/system/cpu/sched_mc_power_savings`,
+                action:"generic /sys/devices/system/cpu/sched_mc_power_savings"
+        }},
+	{ SPane:{
                 title:"Smartreflex",
                 description:"Smartreflex is a power management technology developed by Texas Instruments. It dynamically undervolts to what it determines is the lowest stable voltage at each frequency."
         }},

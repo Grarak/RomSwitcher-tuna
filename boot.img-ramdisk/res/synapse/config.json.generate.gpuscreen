@@ -20,6 +20,19 @@ cat << CTAG
 			512
 		]
 	}},
+	{ SPane:{
+		title:"GPU Governor",
+		description:"The GPU governor determines how the GPU behaves in response to changes in workload. Changing the governor will impact how the GPU scales through the frequency steps available to you GPU."
+	}},
+	{ SOptionList:{
+                default:`cat /sys/kernel/pvr_simple_gov/simple_governor`,
+                action:"gpugovernor /sys/kernel/pvr_simple_gov/simple_governor",
+                values:[
+			performance,
+			ondemand,
+			powersave
+                ]
+        }},
 	{ STitleBar:{
 		title:"Screen"
 	}},

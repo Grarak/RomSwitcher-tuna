@@ -9,6 +9,12 @@ cat << CTAG
         { STitleBar:{
 		title:"Network"
         }},
+	{ SCheckBox:{
+		description:"Keep Wifi speed in sleep mode.",
+                label:"Wifi High Performance",
+                default:`cat /sys/module/bcmdhd/parameters/wifi_pm`,
+                action:"generic /sys/module/bcmdhd/parameters/wifi_pm"
+        }},
 	{ SOptionList:{
 		title:"TCP Congestion Algorithm",
 		description:"The Transmission Control Protocol is one of the core protocols of the Internet protocol suite (IP), and is so common that the entire suite is often called TCP/IP.",

@@ -1,0 +1,12 @@
+if [[ ! -z $2 ]]; then
+	case $2 in
+	performance)
+		echo 0 > $1 ;;
+	ondemand)
+		echo 1 > $1 ;;
+	powersave)
+		echo 2 > $1 ;;
+	esac
+fi
+
+echo `cat $1`
