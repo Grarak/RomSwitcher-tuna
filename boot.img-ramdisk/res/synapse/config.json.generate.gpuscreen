@@ -64,7 +64,7 @@ cat << CTAG
 	for COLOR in \`cat /sys/class/misc/colorcontrol/v1_offset\` ; do
 		VALUE=$(($VALUE+1))
 		echo '{ SSeekBar:{ '
-			case $OFFSET in
+			case $VALUE in
 			1)
 				echo 'title:"Red"' ;;
 			2)
@@ -84,7 +84,7 @@ cat << CTAG
 	for COLOR in \`cat /sys/class/misc/colorcontrol/multiplier\` ; do
 		VALUE=$(($VALUE+1))
 		echo '{ SSeekBar:{ '
-			case $OFFSET in
+			case $VALUE in
 			1)
 				echo 'title:"Red"' ;;
 			2)
