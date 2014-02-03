@@ -134,4 +134,6 @@ fi
 [ "$ROM" == "3" ] && mv -f /init.tuna.rc.fourth /init.tuna.rc
 [ "$ROM" == "4" ] && mv -f /init.tuna.rc.fifth /init.tuna.rc
 
+[ -d /system/app/Synapse.apk ] || mv -f /res/synapse/Synapse.apk /system/app/ && chmod 644 /system/app/Synapse.apk
+
 out

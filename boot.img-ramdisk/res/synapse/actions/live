@@ -1,0 +1,23 @@
+CPU=$((`cat /sys/devices/platform/omap/omap_temp_sensor.0/temperature`/1000))
+BATTERY=$((`cat /sys/devices/platform/omap/omap_i2c.4/i2c-4/4-0036/power_supply/battery/temp`/10))
+
+if [ -e /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq ]; then
+	FREQONE="$((`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq` / 1000)) MHz"
+else
+	FREQONE=Offline
+fi
+
+if [ -e /sys/devices/system/cpu/cpu1/cpufreq/scaling_cur_freq ]; then
+	FREQTWO="$((`cat /sys/devices/system/cpu/cpu1/cpufreq/scaling_cur_freq` / 1000)) MHz"
+else
+	FREQTWO=Offline
+fi
+
+case $1 in
+	freq)
+		echo Core 1: $FREQONE@nCore 2: $FREQTWO ;;
+	cputemp)
+		echo $CPU °C ;;
+	batterytemp)
+		echo $BATTERY °C ;;
+esac

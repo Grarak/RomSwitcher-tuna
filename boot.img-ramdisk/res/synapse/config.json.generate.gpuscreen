@@ -33,25 +33,29 @@ cat << CTAG
 			powersave
                 ]
         }},
-	{ STitleBar:{
-		title:"Screen"
+	{ SPane:{
+		title:"Screen",
+		description:"Disable this to make white brighter at low brightness (this has impact of battery life)."
 	}},
 	{ SCheckBox:{
-		description:"Disable this to make white brighter at low brightness (this has impact of battery life).",
                 label:"Content Adaptive Brightness",
                 default:`cat /sys/class/backlight/s6e8aa0/acl_set`,
                 action:"generic /sys/class/backlight/s6e8aa0/acl_set"
         }},
+	{ SPane:{
+		title:"Trinity's Contrast",
+		description:"Set the difference between dark and bright colors."
+	}},
 	{ SSeekBar:{
-       		title:"Trinity's Contrast",
-		description:"Set the difference between dark and bright colors.",
 		default:`cat /sys/module/panel_s6e8aa0/parameters/contrast`,
 		action:"generic /sys/module/panel_s6e8aa0/parameters/contrast",
 		max:16, min:-25
 	}},
+	{ SPane:{
+		title:"Gamma Control",
+		description:"Set midtones (middle gray levels)."
+	}},
 	{ SSeekBar:{
-       		title:"Gamma Control",
-		description:"set midtones (middle gray levels).",
 		default:`cat /sys/devices/platform/omapdss/manager0/gamma`,
 		action:"generic /sys/devices/platform/omapdss/manager0/gamma",
 		max:10

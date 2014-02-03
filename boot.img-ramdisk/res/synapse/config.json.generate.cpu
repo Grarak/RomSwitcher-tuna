@@ -5,12 +5,28 @@ cat << CTAG
     name:CPU,
     elements:[
 	{ STitleBar:{
-		title:"CPU Informations"
+		title:"CPU Frequency"
 	}},
 	{ SLiveLabel:{
-		title:"Current CPU Frequency",
 		refresh:500,
-		action:"currentfreq"
+		action:"live freq",
+		style:"italic"
+	}},
+	{ STitleBar:{
+		title:"CPU Temperature"
+	}},
+	{ SLiveLabel:{
+		refresh:500,
+		action:"live cputemp",
+		style:"italic"
+	}},
+	{ STitleBar:{
+		title:"Battery Temperature"
+	}},
+	{ SLiveLabel:{
+		refresh:500,
+		action:"live batterytemp",
+		style:"italic"
 	}},
 	{ STitleBar:{
 		title:"CPU Frequency scaling"
@@ -74,12 +90,20 @@ cat << CTAG
         }},
 	{ SPane:{
                 title:"Multicore Power Saving",
-                description:"Try to group tasks into the least cores possible. The higher value, the more aggressive"
+                description:"Try to group tasks into the least cores possible. The higher value, the more aggressive."
         }},
 	{ SSeekBar:{
                 min:0, max:2,
                 default:`cat /sys/devices/system/cpu/sched_mc_power_savings`,
                 action:"generic /sys/devices/system/cpu/sched_mc_power_savings"
+        }},
+	{ SPane:{
+                title:"Temperature Limit",
+                description:"Limit SOC highest temperature."
+        }},
+	{ SSeekBar:{
+                min:60, max:80, unit:"°C",
+                action:"tempcontrol /sys/class/misc/tempcontrol/templimit"
         }},
 	{ SPane:{
                 title:"Smartreflex",

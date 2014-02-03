@@ -10,13 +10,16 @@ cat << CTAG
                 title:"CPU Voltages",
                 description:"Decreasing voltage will lower power consumption of the CPU. Increasing it on overclocked frequencies improves stability. Too low voltage may cause instabilities and freezes."
         }},
+	{ SPane:{
+                title:"MPU Voltages"
+        }},
 `
 while read FREQ UVOLT UNIT; do
 	echo '{ SSeekBar:{
 	default:'$UVOLT',
 	title:"'${FREQ//mhz\:/}' MHz",
 	action:"cpuvolt '${FREQ}'",
-	unit:"'${UNIT}'", min:700, max:1400, step:5 }},'
+	unit:"'${UNIT}'", min:700, max:1500, step:5 }},'
 done < /sys/devices/system/cpu/cpu0/cpufreq/UV_mV_table
 `
 	{ SPane:{
@@ -29,7 +32,7 @@ while read UVOLT UNIT; do
 	default:'$UVOLT',
 	title:"Voltage '${VOLTAGE}'",
 	action:"corevolt '${VOLTAGE}'",
-	unit:"'${UNIT}'", min:700, max:1400, step:5 }},'
+	unit:"'${UNIT}'", min:700, max:1500, step:5 }},'
 done < /sys/devices/virtual/misc/customvoltage/core_voltages
 `
 	{ SPane:{
@@ -42,7 +45,7 @@ while read UVOLT UNIT; do
 	default:'$UVOLT',
 	title:"Voltage '${VOLTAGE}'",
 	action:"ivavolt '${VOLTAGE}'",
-	unit:"'${UNIT}'", min:700, max:1400, step:5 }},'
+	unit:"'${UNIT}'", min:700, max:1500, step:5 }},'
 done < /sys/devices/virtual/misc/customvoltage/iva_voltages
 `
 	{ SPane:{
@@ -54,7 +57,7 @@ while read FREQ UVOLT UNIT; do
 	default:'$UVOLT',
 	title:"'${FREQ//\:/}'",
 	action:"regulatorvolt '${FREQ}'",
-	unit:"'${UNIT}'", min:1600, max:3500, step:10 }},'
+	unit:"'${UNIT}'", min:1300, max:3500, step:10 }},'
 done < /sys/devices/virtual/misc/customvoltage/regulator_voltages
 `
     ]
