@@ -4,9 +4,6 @@ cat << CTAG
 {
     name:RomSwitcher,
     elements:[
-	{ STitleBar:{
-		title:"RomSwitcher Settings"
-	}},
 `
 for ROM in 1 2 3 4 5 ; do
 	echo '{ SButton:{

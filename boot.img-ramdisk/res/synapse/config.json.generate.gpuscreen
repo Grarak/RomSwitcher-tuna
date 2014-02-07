@@ -1,6 +1,7 @@
 #!/sbin/busybox sh
 
 VALUE=0
+GPUFREQ='0:"307MHz", 1:"384MHz", 2:"512MHz"'
 
 cat << CTAG
 {
@@ -12,13 +13,13 @@ cat << CTAG
 	{ SSeekBar:{
        		title:"GPU Max Frequency",
 		description:"Set the maximum freqency the GPU scales up to.",
-		action:"gpufreq",
-		unit:"MHz",
-		values:[
-			307,
-			384,
-			512
-		]
+		default:`cat /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc`,
+		action:"generic /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc",
+		values:{
+`
+			echo $GPUFREQ
+`
+		}
 	}},
 	{ SPane:{
 		title:"GPU Governor",
@@ -34,10 +35,10 @@ cat << CTAG
                 ]
         }},
 	{ SPane:{
-		title:"Screen",
-		description:"Disable this to make white brighter at low brightness (this has impact of battery life)."
+		title:"Screen"
 	}},
 	{ SCheckBox:{
+		description:"Disable this to make white brighter at low brightness (this has impact of battery life).",
                 label:"Content Adaptive Brightness",
                 default:`cat /sys/class/backlight/s6e8aa0/acl_set`,
                 action:"generic /sys/class/backlight/s6e8aa0/acl_set"
