@@ -8,6 +8,14 @@ cat << CTAG
     name:GPU & Screen,
     elements:[
 	{ STitleBar:{
+		title:"GPU Frequency"
+	}},
+	{ SLiveLabel:{
+		refresh:500,
+		action:"live gpufreq",
+		style:"italic"
+	}},
+	{ STitleBar:{
 		title:"GPU Frequency scaling"
 	}},
 	{ SSeekBar:{
