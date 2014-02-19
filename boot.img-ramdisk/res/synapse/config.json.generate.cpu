@@ -109,8 +109,8 @@ cat << CTAG
                 description:"Limit SOC highest temperature."
         }},
 	{ SSeekBar:{
-                min:60, max:80, unit:"°C",
-                action:"tempcontrol /sys/class/misc/tempcontrol/templimit"
+                min:60000, max:80000, unit:"°C", weight:0.001, step:1000,
+                action:"generic /sys/class/misc/tempcontrol/templimit"
         }},
 	{ SPane:{
                 title:"Smartreflex",
@@ -156,6 +156,21 @@ for SR in core iva mpu ; do
 		max:900000, min:700000, weight:0.001, unit:"MHz", step:5000 }},'
 done
 `
+	{ SPane:{
+                title:"IntelliPlug"
+        }},
+	{ SCheckBox:{
+		description:"IntelliPlug hotplugs/unplugs CPU cores based on load demand of the system.",
+                label:"Enable IntelliPlug",
+                default:`cat /sys/module/intelli_plug/parameters/intelli_plug_active`,
+                action:"generic /sys/module/intelli_plug/parameters/intelli_plug_active"
+        }},
+	{ SCheckBox:{
+                description:"Enable Eco Mode will automatically adjust the IntelliPlug parameters most optimal for dualcore operations on the fly.",
+                label:"Enable Eco Mode",
+                default:`cat /sys/module/intelli_plug/parameters/eco_mode_active`,
+                action:"generic /sys/module/intelli_plug/parameters/eco_mode_active"
+        }},
     ]
 }
 CTAG
