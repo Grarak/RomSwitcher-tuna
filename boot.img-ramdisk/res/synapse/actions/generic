@@ -3,6 +3,9 @@ if [ -f $1 ];then
 		echo $2 > $1
 		[ "$1" == "/sys/module/panel_s6e8aa0/parameters/contrast" ] && echo `cat /sys/class/misc/colorcontrol/multiplier` > /sys/class/misc/colorcontrol/multiplier
 		[ "$1" == "/sys/vibrator/pwmvalue" ] && echo 300 > /sys/devices/virtual/timed_output/vibrator/enable
+		if [ "$1" == "/sys/module/intelli_plug/parameters/intelli_plug_active" ]; then
+			[ "$2" == "0" ] && echo 1 > /sys/devices/system/cpu/cpu1/online
+		fi
 	fi
 
 	echo `cat $1`

@@ -37,11 +37,8 @@ write() {
 			COLORARR="$COLORARR $COLOR"
 		fi
 	done
-	if [ "$P" == "/sys/class/misc/colorcontrol/multiplier" ]; then
-		echo 0 > /sys/devices/virtual/misc/colorcontrol/safety_enabled
-	fi
+	[ "$P" == "/sys/class/misc/colorcontrol/multiplier" ] && echo 0 > /sys/devices/virtual/misc/colorcontrol/safety_enabled
 	echo $COLORARR > $P
-	echo $COLORARR > /sdcard/test
 }
 
 if [[ ! -z $2 ]]; then
