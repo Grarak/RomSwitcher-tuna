@@ -8,31 +8,19 @@ cat << CTAG
     name:CPU,
     elements:[
 	{ STitleBar:{
-		title:"CPU Frequency"
+		title:"Temperature"
 	}},
 	{ SLiveLabel:{
 		refresh:500,
-		action:"live cpufreq",
-		style:"italic"
-	}},
-	{ STitleBar:{
-		title:"CPU Temperature"
-	}},
-	{ SLiveLabel:{
-		refresh:500,
-		action:"live cputemp",
-		style:"italic"
-	}},
-	{ STitleBar:{
-		title:"Battery Temperature"
-	}},
-	{ SLiveLabel:{
-		refresh:500,
-		action:"live batterytemp",
-		style:"italic"
+		action:"live temp"
 	}},
 	{ STitleBar:{
 		title:"CPU Frequency scaling"
+	}},
+	{ SLiveLabel:{
+		title:"CPU Frequency",
+		refresh:500,
+		action:"live cpufreq"
 	}},
 	{ SSeekBar:{
        		title:"CPU Max Frequency",
