@@ -115,10 +115,10 @@ fi
 ROM=`cat /data/media/.rom`
 [ $ROM == 0 ] && ROM=1
 
-if [ "$ROM" != "1" ]; then
-	mount -t ext4 -o rw /data/media/.${ROM}rom/system.img /system
-else
+if [ "$ROM" == "1" ]; then
 	mount -t ext4 -o rw /dev/block/mmcblk0p10 /system
+else
+	mount -t ext4 -o rw /data/media/.${ROM}rom/system.img /system
 fi
 
 if grep -q ro.build.version.sdk=19 /system/build.prop ; then
