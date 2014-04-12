@@ -1,54 +1,16 @@
 #!/sbin/sh
 
 BB="busybox"
-FILESYSTEM=$1
+ROM=$1
 
-if [ $FILESYSTEM == "secondary" ]; then
+path=/data/media/.${ROM}rom
 
-   $BB mkdir -p /data/media/.secondrom
-   second=/data/media/.secondrom/system.img
-
-   if $BB [ ! -f $second ] ; then
-	# create a file 650MB
-	$BB dd if=/dev/zero of=$second bs=1024 count=657286 || exit 1
+if $BB [ ! -f $path/system.img ] ; then
+	$BB mkdir -p $path
+	# create a file 700MB
+	$BB dd if=/dev/zero of=$path/system.img bs=1024 count=716800 || exit 1
 	# create ext4 filesystem
-	$BB mke2fs -F -T ext4 $second || exit 1
-   fi
-
-elif [ $FILESYSTEM == "tertiary" ]; then
-
-   $BB mkdir -p /data/media/.thirdrom
-   third=/data/media/.thirdrom/system.img
-
-   if $BB [ ! -f $third ] ; then
-      # create a file 650MB
-      $BB dd if=/dev/zero of=$third bs=1024 count=657286 || exit 1
-      # create ext4 filesystem
-      $BB mke2fs -F -T ext4 $third || exit 1
-   fi
-elif [ $FILESYSTEM == "quaternary" ]; then
-
-   $BB mkdir -p /data/media/.fourthrom
-   fourth=/data/media/.fourthrom/system.img
-
-   if $BB [ ! -f $fourth ] ; then
-      # create a file 650MB
-      $BB dd if=/dev/zero of=$fourth bs=1024 count=657286 || exit 1
-      # create ext4 filesystem
-      $BB mke2fs -F -T ext4 $fourth || exit 1
-   fi
-   elif [ $FILESYSTEM == "quinary" ]; then
-
-   $BB mkdir -p /data/media/.fifthrom
-   fifth=/data/media/.fifthrom/system.img
-
-   if $BB [ ! -f $fifth ] ; then
-      # create a file 650MB
-      $BB dd if=/dev/zero of=$fifth bs=1024 count=657286 || exit 1
-      # create ext4 filesystem
-      $BB mke2fs -F -T ext4 $fifth || exit 1
-   fi
-
+	$BB mke2fs -F -T ext4 $path/system.img || exit 1
 fi
 
 exit 0

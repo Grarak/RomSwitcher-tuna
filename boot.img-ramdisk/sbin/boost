@@ -1,4 +1,0 @@
-#!/sbin/busybox sh
-
-su
-[ -d /data/data/com.antutu.ABenchMark ] && mount -t tmpfs tmpfs /data/data/com.antutu.ABenchMark
