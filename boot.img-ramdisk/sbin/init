@@ -113,6 +113,7 @@ fi
 
 [ -e /data/media/.rom ] || echo 1 > /data/media/.rom
 ROM=`cat /data/media/.rom`
+[ $ROM == 0 ] && ROM=1
 
 if [ "$ROM" != "1" ]; then
 	mount -t ext4 -o rw /data/media/.${ROM}rom/system.img /system
