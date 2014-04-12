@@ -16,9 +16,9 @@ on init
     symlink /mnt/shell/emulated/0 /storage/emulated/legacy
 
     # create directory for mounting usb drives
-    mkdir /storage/usbdisk 0666 system system
-    symlink /storage/usbdisk /mnt/usbdisk
-    symlink /mnt/usbdisk /usbdisk
+    chmod 0701 /mnt/media_rw
+    mkdir /mnt/media_rw/usbdisk 0775 system system
+    mkdir /storage/usbdisk 0000 system system
 
 on post-fs-data
     mkdir /data/media 0770 media_rw media_rw
@@ -63,16 +63,9 @@ on boot
 
 on fs
 	mkdir /factory 0775 radio radio
-
 	mkdir /.firstrom 0771 system system
 	mount_all /fstab.tuna
-	exec /sbin/busybox mount -t ext4 -o rw /.firstrom/media/.fifthrom/system.img /system
-	mkdir /.firstrom/media/.fifthrom/data 0775 system system
-	mkdir /.firstrom/media/.fifthrom/cache 0775 system cache
-	exec /sbin/busybox mount --bind /.firstrom/media/.fifthrom/data /data
-	exec /sbin/busybox mount --bind /.firstrom/media/.fifthrom/cache /cache
-	exec /sbin/ext/mount.sh quinary
-
+	exec /sbin/ext/mount_partitions.sh
 	restorecon /dev/block/platform/omap/omap_hsmmc.0/by-name/radio
 	mount ext4 /dev/block/platform/omap/omap_hsmmc.0/by-name/efs /factory rw remount
 	restorecon /factory
@@ -196,8 +189,12 @@ service smc_pa_wvdrm /system/bin/smc_pa_ctrl \
         oneshot
 
 # virtual sdcard daemon running as media_rw (1023)
-service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /.firstrom/media /mnt/shell/emulated
+service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
     class late_start
+
+service fuse_usbdisk /system/bin/sdcard -u 1023 -g 1023 /mnt/media_rw/usbdisk /storage/usbdisk
+    class late_start
+    disabled
 
 service p2p_supplicant /system/bin/wpa_supplicant \
 	-iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \

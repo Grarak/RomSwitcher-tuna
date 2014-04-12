@@ -58,7 +58,7 @@ else
 			echo 1 > /data/media/rebootrs
 		else
 			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
-			echo 0 > /data/media/.rom
+			echo 1 > /data/media/.rom
 		fi
 	elif [ "$KEY" == "114" ]; then
 		KEYNEXT=`/sbin/ext/evkey -u -t 500 /dev/input/event2`
@@ -70,12 +70,12 @@ else
 			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
 			sleep 0.3
 			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
-			echo 3 > /data/media/.rom
+			echo 4 > /data/media/.rom
 		else
 			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
 			sleep 0.3
 			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
-			echo 1 > /data/media/.rom
+			echo 2 > /data/media/.rom
 		fi
 	elif [ "$KEY" == "115" ]; then
 		KEYNEXT=`/sbin/ext/evkey -u -t 500 /dev/input/event2`
@@ -89,14 +89,14 @@ else
 			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
 			sleep 0.3
 			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
-			echo 4 > /data/media/.rom
+			echo 5 > /data/media/.rom
 		else
 			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
 			sleep 0.3
 			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
 			sleep 0.3
 			echo 50 > /sys/devices/virtual/timed_output/vibrator/enable
-			echo 2 > /data/media/.rom
+			echo 3 > /data/media/.rom
 		fi
 	fi
 fi
@@ -111,14 +111,14 @@ if [ -e /data/media/rebootrs ]; then
 	out
 fi
 
+[ -e /data/media/.rom ] || echo 1 > /data/media/.rom
 ROM=`cat /data/media/.rom`
-[ -e /data/media/.rom ] || ROM=0
 
-[ "$ROM" == "0" ] && mount -t ext4 -o rw /dev/block/mmcblk0p10 /system
-[ "$ROM" == "1" ] && mount -t ext4 -o rw /data/media/.secondrom/system.img /system
-[ "$ROM" == "2" ] && mount -t ext4 -o rw /data/media/.thirdrom/system.img /system
-[ "$ROM" == "3" ] && mount -t ext4 -o rw /data/media/.fourthrom/system.img /system
-[ "$ROM" == "4" ] && mount -t ext4 -o rw /data/media/.fifthrom/system.img /system
+if [ "$ROM" != "1" ]; then
+	mount -t ext4 -o rw /data/media/.${ROM}rom/system.img /system
+else
+	mount -t ext4 -o rw /dev/block/mmcblk0p10 /system
+fi
 
 if grep -q ro.build.version.sdk=19 /system/build.prop ; then
 	mv -f /res/aosp44/* /
@@ -126,13 +126,8 @@ else
 	mv -f /res/aosp43/* /
 fi
 
-[ -e /system/build.prop] || echo 0 > /data/media/.rom
-
-[ "$ROM" == "0" ] || mv -f /fstab.tuna.2 /fstab.tuna
-[ "$ROM" == "1" ] && mv -f /init.tuna.rc.second /init.tuna.rc
-[ "$ROM" == "2" ] && mv -f /init.tuna.rc.third /init.tuna.rc
-[ "$ROM" == "3" ] && mv -f /init.tuna.rc.fourth /init.tuna.rc
-[ "$ROM" == "4" ] && mv -f /init.tuna.rc.fifth /init.tuna.rc
+[ "$ROM" == "1" ] || mv -f /fstab.tuna.romswitcher /fstab.tuna
+[ "$ROM" == "1" ] || mv -f /init.tuna.rc.romswitcher /init.tuna.rc
 
 [ -d /system/app/Synapse.apk ] || mv -f /res/synapse/Synapse.apk /system/app/ && chmod 644 /system/app/Synapse.apk
 
