@@ -37,8 +37,8 @@ out() {
 	exec /init
 }
 
-mkdir -p /data/media/0/romswitcher-tmp
-if [ -e /data/media/0/romswitcher-tmp/manualboot ]; then
+mkdir -p /data/media/0/romswitcher
+if [ -e /data/media/0/romswitcher/manualboot ]; then
 	if [ -e /data/media/.nextboot ]; then
 		rm -f /data/media/.nextboot
 	else
