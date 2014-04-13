@@ -24,7 +24,15 @@ if [ $ROM != "1" ]; then
 	mount --bind /.firstrom/media/.${ROM}rom/data /data
 	mount --bind /.firstrom/media/.${ROM}rom/cache /cache
 
-	/sbin/ext/mount.sh $ROM
+	mkdir -p /data/media
+	mount --bind /.firstrom/media /data/media
+
+	echo 2 > /data/.layout_version
+
+	chown media_rw.media_rw /data/media
+	chown -R media_rw.media_rw /data/media/*
+
+	/sbin/ext/romswitcher.sh $ROM
 else
 	rm -rf /.firstrom
 fi
