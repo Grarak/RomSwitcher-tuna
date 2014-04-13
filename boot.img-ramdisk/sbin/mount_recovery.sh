@@ -19,6 +19,7 @@ if [ $ROM == "0" ]; then
 
 	$UMOUNT /system
         $UMOUNT /data/media
+	$UMOUNT /data
 	$UMOUNT /.firstrom
 	$UMOUNT /.firstcache
 
@@ -49,7 +50,8 @@ else
 	$MOUNT --bind /.firstrom/media /data/media
 
 	$BB mkdir -p /system
-	$MOUNT -t ext4 -o rw /.firstrom/media/.${ROM}rom/system.img /system
+	$BB mkdir -p /.firstrom/media/.${ROM}rom/system
+	$MOUNT --bind /.firstrom/media/.${ROM}rom/system /system
 fi
 
 exit 0

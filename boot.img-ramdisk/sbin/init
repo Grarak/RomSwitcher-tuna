@@ -118,7 +118,7 @@ ROM=`cat /data/media/.rom`
 if [ "$ROM" == "1" ]; then
 	mount -t ext4 -o rw /dev/block/mmcblk0p10 /system
 else
-	mount -t ext4 -o rw /data/media/.${ROM}rom/system.img /system
+	mount --bind /data/media/.${ROM}rom/system /system
 fi
 
 if grep -q ro.build.version.sdk=19 /system/build.prop ; then
@@ -128,7 +128,6 @@ else
 fi
 
 [ "$ROM" == "1" ] || mv -f /fstab.tuna.romswitcher /fstab.tuna
-[ "$ROM" == "1" ] || mv -f /init.tuna.rc.romswitcher /init.tuna.rc
 
 [ -d /system/app/Synapse.apk ] || mv -f /res/synapse/Synapse.apk /system/app/ && chmod 644 /system/app/Synapse.apk
 
