@@ -105,7 +105,7 @@ fi
 
 if [ -e /data/media/rebootrs ]; then
 	rm -f /data/media/rebootrs
-	mv -f /res/etc /
+	cp -f /res/etc /
 	mv -f /res/aosp44/* /
 	mv -f /res/recovery/* /
 	out
@@ -126,8 +126,6 @@ if grep -q ro.build.version.sdk=19 /system/build.prop ; then
 else
 	mv -f /res/aosp43/* /
 fi
-
-[ "$ROM" == "1" ] || mv -f /fstab.tuna.romswitcher /fstab.tuna
 
 [ -d /system/app/Synapse.apk ] || mv -f /res/synapse/Synapse.apk /system/app/ && chmod 644 /system/app/Synapse.apk
 

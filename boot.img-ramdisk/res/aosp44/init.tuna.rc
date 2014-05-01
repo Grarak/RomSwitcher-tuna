@@ -63,7 +63,6 @@ on boot
 
 on fs
 	mkdir /factory 0775 radio radio
-	mkdir /.firstrom 0771 system system
 	mount_all /fstab.tuna
 	exec /sbin/ext/mount_partitions.sh
 	restorecon /dev/block/platform/omap/omap_hsmmc.0/by-name/radio
