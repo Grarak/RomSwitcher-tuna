@@ -6,9 +6,9 @@ ROM=`cat /data/media/.rom`
 if [ $ROM != "1" ]; then
 
 	while read par path emmc; do
-	case $path in
-	*data) data=$par ;;
-	esac
+		case $path in
+		*data) data=$par ;;
+		esac
 	done < /res/etc/recovery.fstab
 
 	umount -l /data
@@ -51,6 +51,5 @@ if [ $ROM != "1" ]; then
 	chown -R media_rw.media_rw /data/media/*
 
 	/sbin/ext/romswitcher.sh $ROM
-else
-	rm -rf /.firstrom
+
 fi

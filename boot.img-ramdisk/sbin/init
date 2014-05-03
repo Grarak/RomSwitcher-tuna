@@ -105,7 +105,7 @@ fi
 
 if [ -e /data/media/rebootrs ]; then
 	rm -f /data/media/rebootrs
-	cp -f /res/etc /
+	mv -f /res/etc /
 	mv -f /res/aosp44/* /
 	mv -f /res/recovery/* /
 	out
