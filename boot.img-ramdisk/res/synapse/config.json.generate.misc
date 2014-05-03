@@ -4,7 +4,7 @@ TCPNUM=0
 
 cat << CTAG
 {
-    name:Miscellaneous,
+    name:Misc,
     elements:[
         { STitleBar:{
 		title:"Network"

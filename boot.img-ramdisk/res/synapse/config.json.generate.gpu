@@ -1,0 +1,44 @@
+#!/sbin/busybox sh
+
+VALUE=0
+GPUFREQ='0:"307MHz", 1:"384MHz", 2:"512MHz"'
+
+cat << CTAG
+{
+    name:GPU,
+    elements:[
+	{ STitleBar:{
+		title:"GPU Frequency scaling"
+	}},
+	{ SLiveLabel:{
+		title:"GPU Frequency",
+		refresh:500,
+		action:"live gpufreq"
+	}},
+	{ SSeekBar:{
+       		title:"GPU Max Frequency",
+		description:"Set the maximum freqency the GPU scales up to.",
+		default:`cat /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc`,
+		action:"generic /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc",
+		values:{
+`
+			echo $GPUFREQ
+`
+		}
+	}},
+	{ STitleBar:{
+		title:"GPU Governor"
+	}},
+	{ SOptionList:{
+		description:"The GPU governor determines how the GPU behaves in response to changes in workload. Changing the governor will impact how the GPU scales through the frequency steps available to you GPU.",
+                default:`cat /sys/kernel/pvr_simple_gov/simple_governor`,
+                action:"gpugovernor /sys/kernel/pvr_simple_gov/simple_governor",
+                values:[
+			performance,
+			ondemand,
+			powersave
+                ]
+        }},
+    ]
+}
+CTAG

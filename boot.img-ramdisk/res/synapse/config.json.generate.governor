@@ -2,7 +2,7 @@
 
 cat << CTAG
 {
-    name:"CPU Governor",
+    name:"Governor",
     elements:[
         { SOptionList:{
 		description:"The CPU governor determines how the CPU behaves in response to changes in workload. Changing the governor will impact how the CPU scales through the frequency steps available to you CPU.",

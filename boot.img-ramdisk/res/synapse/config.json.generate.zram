@@ -4,8 +4,8 @@ cat << CTAG
 {
     name:Z-RAM,
     elements:[
-        { SPane:{
-		title:"Swappines",
+        { STitleBar:{
+		title:"Swappines"
         }},
 	{ SSeekBar:{
        		title:"Swappines",
@@ -13,7 +13,7 @@ cat << CTAG
                 default:`cat /proc/sys/vm/swappiness`,
                 action:"generic /proc/sys/vm/swappiness"
 	}},
-        { SPane:{
+        { STitleBar:{
 		title:"Z-RAM"
         }},
 	{ SSeekBar:{

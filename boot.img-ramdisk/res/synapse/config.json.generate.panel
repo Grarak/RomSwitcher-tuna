@@ -1,72 +1,36 @@
 #!/sbin/busybox sh
 
 VALUE=0
-GPUFREQ='0:"307MHz", 1:"384MHz", 2:"512MHz"'
 
 cat << CTAG
 {
-    name:GPU & Screen,
+    name:Panel,
     elements:[
-	{ STitleBar:{
-		title:"GPU Frequency scaling"
-	}},
-	{ SLiveLabel:{
-		title:"GPU Frequency",
-		refresh:500,
-		action:"live gpufreq"
-	}},
-	{ SSeekBar:{
-       		title:"GPU Max Frequency",
-		description:"Set the maximum freqency the GPU scales up to.",
-		default:`cat /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc`,
-		action:"generic /sys/devices/system/cpu/cpu0/cpufreq/gpu_oc",
-		values:{
-`
-			echo $GPUFREQ
-`
-		}
-	}},
-	{ SPane:{
-		title:"GPU Governor",
-		description:"The GPU governor determines how the GPU behaves in response to changes in workload. Changing the governor will impact how the GPU scales through the frequency steps available to you GPU."
-	}},
-	{ SOptionList:{
-                default:`cat /sys/kernel/pvr_simple_gov/simple_governor`,
-                action:"gpugovernor /sys/kernel/pvr_simple_gov/simple_governor",
-                values:[
-			performance,
-			ondemand,
-			powersave
-                ]
-        }},
-	{ SPane:{
-		title:"Screen"
-	}},
 	{ SCheckBox:{
 		description:"Disable this to make white brighter at low brightness (this has impact of battery life).",
                 label:"Content Adaptive Brightness",
                 default:`cat /sys/class/backlight/s6e8aa0/acl_set`,
                 action:"generic /sys/class/backlight/s6e8aa0/acl_set"
         }},
-	{ SPane:{
-		title:"Trinity's Contrast",
-		description:"Set the difference between dark and bright colors."
+	{ STitleBar:{
+		title:"Trinity's Contrast"
 	}},
 	{ SSeekBar:{
+		description:"Set the difference between dark and bright colors.",
 		default:`cat /sys/module/panel_s6e8aa0/parameters/contrast`,
 		action:"generic /sys/module/panel_s6e8aa0/parameters/contrast",
 		max:16, min:-25
 	}},
-	{ SPane:{
-		title:"Gamma Control",
-		description:"Set midtones (middle gray levels)."
+	{ STitleBar:{
+		title:"Gamma Control"
 	}},
 	{ SSeekBar:{
+		description:"Set midtones (middle gray levels).",
 		default:`cat /sys/devices/platform/omapdss/manager0/gamma`,
 		action:"generic /sys/devices/platform/omapdss/manager0/gamma",
 		max:10
 	}},
-	{ SPane:{
+	{ STitleBar:{
 		title:"Gamma Offset",
 		description:"Gamma Offset controls Shadows/Blacks of the display. It does this by changing the brightness/color levels while leaving midtones and highlight areas unaffected."
 	}},
@@ -86,8 +50,10 @@ cat << CTAG
 			max:15, min:-15 }},'
 	done
 `
+	{ STitleBar:{
+		title:"Color Multiplier"
+	}},
 	{ SPane:{
-		title:"Color Multiplier",
 		description:"Set multiplier of a specific color."
 	}},
 `
