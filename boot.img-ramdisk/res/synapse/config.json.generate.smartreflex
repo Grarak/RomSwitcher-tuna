@@ -9,6 +9,10 @@ cat << CTAG
 	{ SDescription:{
                 description:"Smartreflex is a power management technology developed by Texas Instruments. It dynamically undervolts to what it determines is the lowest stable voltage at each frequency."
         }},
+	{ SLiveLabel:{
+		title:"Voltage",
+		action:"live sr"
+	}},
 `
 for SR in core iva mpu ; do
 	VALUE=$(($VALUE+1))
